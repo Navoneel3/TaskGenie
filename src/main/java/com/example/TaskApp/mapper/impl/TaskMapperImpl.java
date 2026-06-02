@@ -5,7 +5,9 @@ import com.example.TaskApp.domain.dto.CreateTaskRequestDto;
 import com.example.TaskApp.domain.dto.TaskDto;
 import com.example.TaskApp.domain.entity.Task;
 import com.example.TaskApp.mapper.TaskMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TaskMapperImpl implements TaskMapper {
 
     @Override

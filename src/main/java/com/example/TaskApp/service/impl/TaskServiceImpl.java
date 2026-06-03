@@ -1,6 +1,7 @@
 package com.example.TaskApp.service.impl;
 
 import com.example.TaskApp.domain.CreateTaskRequest;
+import com.example.TaskApp.domain.UpdateTaskRequest;
 import com.example.TaskApp.domain.entity.Task;
 import com.example.TaskApp.domain.entity.TaskStatus;
 import com.example.TaskApp.repository.TaskRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TaskServiceImpl  implements TaskService {
@@ -39,5 +41,19 @@ public class TaskServiceImpl  implements TaskService {
     @Override
     public List<Task> listTasks() {
         return taskRepository.findAll(Sort.by(Sort.Direction.ASC,"created"));
+    }
+
+    @Override
+    public Task updateTask(UUID id, UpdateTaskRequest request) {
+        Task existingTask=taskRepository.findById(id).orElseThrow(()-> new RuntimeException("Task Not Found"));
+
+        existingTask.setTitle(request.title());
+        existingTask.setDescription(request.description());
+        existingTask.setDueDate(request.dueDate());
+        existingTask.setPriority(request.priority());
+        existingTask.setStatus(request.status());
+        existingTask.setUpdated(Instant.now());
+
+        return taskRepository.save(existingTask);
     }
 }

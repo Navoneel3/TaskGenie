@@ -48,4 +48,9 @@ public class TaskController {
         TaskDto taskDto = taskMapper.toDto(task);
         return ResponseEntity.ok(taskDto);
     }
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable UUID id) {
+        taskService.deleteTask(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

@@ -4,6 +4,7 @@ import com.example.TaskApp.domain.CreateTaskRequest;
 import com.example.TaskApp.domain.UpdateTaskRequest;
 import com.example.TaskApp.domain.entity.Task;
 import com.example.TaskApp.domain.entity.TaskStatus;
+import com.example.TaskApp.exception.TaskNotFoundException;
 import com.example.TaskApp.repository.TaskRepository;
 import com.example.TaskApp.service.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,8 @@ public class TaskServiceImpl  implements TaskService {
 
     @Override
     public Task updateTask(UUID id, UpdateTaskRequest request) {
-        Task existingTask=taskRepository.findById(id).orElseThrow(()-> new RuntimeException("Task Not Found"));
+        Task existingTask=taskRepository.findById(id)
+                .orElseThrow(()-> new TaskNotFoundException(id));
 
         existingTask.setTitle(request.title());
         existingTask.setDescription(request.description());
